@@ -15,18 +15,18 @@ WHERE
     student.name = 'Aomori';
 
 
-    name    
-------------
- Eisenhower
- Johnson
- Lincoln
- Oda
- Roosevelt
- Takeda
- Tokugawa
- Toyotomi
- Uesugi
- Washington
+--     name    
+-- ------------
+--  Eisenhower
+--  Johnson
+--  Lincoln
+--  Oda
+--  Roosevelt
+--  Takeda
+--  Tokugawa
+--  Toyotomi
+--  Uesugi
+--  Washington
 
 WITH num_registration AS (
     SELECT code, COUNT(*) AS count
@@ -40,10 +40,10 @@ WHERE f.count = (
     FROM num_registration AS e
 );
 
- code | count 
-------+-------
- C14  |     2
- C15  |     2
+--  code | count 
+-- ------+-------
+--  C14  |     2
+--  C15  |     2
 
 WITH max_grades_per_code AS (
     SELECT 
@@ -68,23 +68,23 @@ JOIN
     ON r.code = mg.code AND r.grade = mg.max_grade;
 
 
-   name   | code | max_grade 
-----------+------+-----------
- Miyagi   | C01  |        99
- Yamagata | C02  |        99
- Akita    | C03  |        95
- Miyagi   | C04  |        95
- France   | C05  |        95
- Miyagi   | C06  |        95
- Yamagata | C07  |        95
- Chicago  | C08  |        99
- Yamagata | C09  |        95
- America  | C10  |        95
- Iwate    | C11  |        95
- Akita    | C12  |        95
- Aomori   | C13  |        95
- Gumma    | C14  |        95
- Gumma    | C15  |        90
+--    name   | code | max_grade 
+-- ----------+------+-----------
+--  Miyagi   | C01  |        99
+--  Yamagata | C02  |        99
+--  Akita    | C03  |        95
+--  Miyagi   | C04  |        95
+--  France   | C05  |        95
+--  Miyagi   | C06  |        95
+--  Yamagata | C07  |        95
+--  Chicago  | C08  |        99
+--  Yamagata | C09  |        95
+--  America  | C10  |        95
+--  Iwate    | C11  |        95
+--  Akita    | C12  |        95
+--  Aomori   | C13  |        95
+--  Gumma    | C14  |        95
+--  Gumma    | C15  |        90
 
 SELECT 
     s.number
@@ -109,10 +109,10 @@ WHERE
             )
     );
 
- number 
---------
- S16   
- S17   
- S18   
- S19   
- S20   
+--  number 
+-- --------
+--  S16   
+--  S17   
+--  S18   
+--  S19   
+--  S20   
