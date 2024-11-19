@@ -1,7 +1,19 @@
-select distinct lecturer.name from lecturer
-join lectured_by on lectured_by.number = lecturer.number
-join registration on registration.code = lectured_by.code
-join (select student.number from student where student.name = 'Aomori') as e on e.number = registration.number;
+SELECT DISTINCT 
+    lecturer.name
+FROM 
+    lecturer
+JOIN 
+    lectured_by 
+    ON lectured_by.number = lecturer.number
+JOIN 
+    registration 
+    ON registration.code = lectured_by.code
+JOIN 
+    student 
+    ON student.number = registration.number
+WHERE 
+    student.name = 'Aomori';
+
 
     name    
 ------------
@@ -16,39 +28,60 @@ join (select student.number from student where student.name = 'Aomori') as e on 
  Uesugi
  Washington
 
- select f.code, f.count from 
-(select code, count(*) from registration group by registration.code) as f 
-where f.count = 
-(select min(e.count) from (select count(*) from registration group by registration.code) as e);
+WITH num_registration AS (
+    SELECT code, COUNT(*) AS count
+    FROM registration
+    GROUP BY code
+)
+SELECT f.code, f.count
+FROM num_registration AS f
+WHERE f.count = (
+    SELECT MIN(e.count)
+    FROM num_registration AS e
+);
 
  code | count 
 ------+-------
  C14  |     2
  C15  |     2
 
-select student.name, e.code, e.max from student
-join registration on registration.number = student.number
-join
-(select registration.code, max(registration.grade) from registration
-group by registration.code) as e
-on registration.code = e.code and registration.grade = e.max;
+WITH max_grades_per_code AS (
+    SELECT 
+        code, 
+        MAX(grade) AS max_grade
+    FROM 
+        registration
+    GROUP BY 
+        code
+)
+SELECT 
+    s.name, 
+    r.code, 
+    r.grade AS max_grade
+FROM 
+    student AS s
+JOIN 
+    registration AS r 
+    ON r.number = s.number
+JOIN 
+    max_grades_per_code AS mg
+    ON r.code = mg.code AND r.grade = mg.max_grade;
 
-          title          | max 
--------------------------+-----
- Bio-Engineering Intro   |  90
- Coding Theory           |  95
- Database                |  95
- Mathematics             |  99
- Knowledge Engineering   |  95
- Computer Architecture   |  99
- Mathematical Logic      |  95
- Program Design          |  95
- Applied Mathematics     |  95
- Programming             |  99
- Computer Science Basics |  95
- Thesis Work             |  95
- Numerical Computation   |  95
- Data Science            |  95
- Mathematical Statistics |  95
-(15 rows)
 
+   name   | code | max_grade 
+----------+------+-----------
+ Miyagi   | C01  |        99
+ Yamagata | C02  |        99
+ Akita    | C03  |        95
+ Miyagi   | C04  |        95
+ France   | C05  |        95
+ Miyagi   | C06  |        95
+ Yamagata | C07  |        95
+ Chicago  | C08  |        99
+ Yamagata | C09  |        95
+ America  | C10  |        95
+ Iwate    | C11  |        95
+ Akita    | C12  |        95
+ Aomori   | C13  |        95
+ Gumma    | C14  |        95
+ Gumma    | C15  |        90
