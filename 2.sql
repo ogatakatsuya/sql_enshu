@@ -85,3 +85,34 @@ JOIN
  Aomori   | C13  |        95
  Gumma    | C14  |        95
  Gumma    | C15  |        90
+
+SELECT 
+    s.number
+FROM 
+    student AS s
+WHERE 
+    NOT EXISTS (
+        SELECT 
+            c.code
+        FROM 
+            course AS c
+        WHERE 
+            c.type = 'R'
+            AND NOT EXISTS (
+                SELECT 
+                    1
+                FROM 
+                    registration AS r
+                WHERE 
+                    r.number = s.number
+                    AND r.code = c.code
+            )
+    );
+
+ number 
+--------
+ S16   
+ S17   
+ S18   
+ S19   
+ S20   
